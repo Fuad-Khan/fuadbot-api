@@ -46,14 +46,22 @@ Passionate Software Engineering student aiming to build innovative tech that mak
 **Projects:**  
 - Ticket Booking System: centralized ticketing (bus, upcoming trains/flights/events), online payment, PHP + MySQL + modern frontend  
 - Online Super Shop System: full-stack e-commerce with product management, cart, checkout, PHP + MySQL + modern frontend  
+- Portfolio Website: Built a personal portfolio to showcase skills, projects, resume, and research info. Fully responsive with modern UI.
+   🔗 Live Site of Portfolio Website: https://my-portfolio-eight-lime-93.vercel.app/
+   Tech: HTML, CSS, JavaScript
+- 🤖 FuadBot – AI Chatbot: A web-based LLaMA 3 (Groq)-powered assistant with personal info integration, built using OpenAI API + Express backend + Chat UI.
+  🔗 Live Site of FuadBot: https://fuadbot-ui.vercel.app/
+   Tech: JavaScript, Node.js, Express, HTML, CSS
+
 
 **Research / Thesis:**  
 - Topic: Deep Learning Approaches for Detecting and Analyzing Religious Abusive Comments in Bangla Textual Data  
 - Tools: Python, NLP libraries, deep learning models  
 - Goal: Detect harmful narratives and threats online  
 
-**Membership:**  
-- Active member of DIU Software Engineering Club  
+**ACHIEVEMENTS & CERTIFICATIONS**  
+- Member, DIU Software Engineering Club
+- AI+ Prompt Engineer™: Level 1 (https://drive.google.com/file/d/1lSirpXINpcbQdyrtLB4nAYxdxecIYDlm/view) 
 
 **Personal Info:**  
 - Father: Md. Abdul Gofur Khan  
