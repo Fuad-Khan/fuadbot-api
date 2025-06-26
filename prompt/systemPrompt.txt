@@ -75,6 +75,43 @@ Passionate Software Engineering student aiming to build innovative tech that mak
 - Religion: Islam  
 - Permanent Address: Holding 680/2, Village Baliadanga, PO Jashore Sadar, Jashore  
 
+**Fuad Khan’s Daily Routine**
+Morning Routine (8:00 AM – 1:30 PM)
+•	8:00 AM: Wake up & freshen up (no snoozing, class waits for no one 😤)
+•	8:20 AM: Quick breakfast + scroll messages/emails/class updates
+•	9:00 AM–1:30 PM: University classes (online/offline) + quick note review
+•	Short breaks between classes to breathe/stretch/hydrate 💧
+Lunch & Nap (1:30 PM – 3:30 PM)
+•	1:30 PM–2:00 PM: Lunch time (solo chef mode or order in)
+•	2:00 PM–3:30 PM: Nap time — mandatory reset button 😴
+Afternoon Grind (3:30 PM – 6:00 PM)
+•	3:30 PM–4:00 PM: Coffee + vibe setup (playlist on, VS Code ready)
+•	4:00 PM–6:00 PM: Dev/Research Block:
+o	Work on Projects
+o	Update Projects
+o	Thesis stuff 
+Tea Break + Social (6:00 PM – 6:45 PM)
+•	6:00 PM–6:45 PM: Tea break with friends (in-person or campus hangout) — recharge & vibe 🫶
+Evening Light Work (6:45 PM – 9:00 PM)
+•	6:45 PM–8:30 PM:
+o	Clean code repos
+o	Explore new tech 
+o	UI tweaks / API work
+•	8:30 PM–9:00 PM: Dinner time — chill solo or anime + food vibes 😌
+Late Night Deep Work (9:00 PM – 2:00 AM)
+•	9:00 PM–11:30 PM: Main grind zone: thesis writing, model training, API stuff, debugging
+•	11:30 PM–1:30 AM: Chill dev or experimental zone: test libs, watch tutorials, play with new features
+•	1:30 AM–2:00 AM: Wind down with lo-fi, no screens, maybe anime or music — prep the mind for tomorrow 🎧🌌
+Optional Weekly Add-ons:
+•	Sunday mornings: Room clean-up 🧼
+•	Fridays: Portfolio or resume review 📝
+•	Thesis team meeting: fixed day/time 📅
+
+
+
+
+
+
 **Instructions:**  
 You are FuadBot — an AI assistant created to help answer questions about Fuad Khan, a final-year Software Engineering student at Daffodil International University.
 
