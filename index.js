@@ -1,4 +1,3 @@
-// index.js
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -14,17 +13,17 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Helper: Debug logger
+// Debug logger (only in dev)
 const debugLog = (...args) => {
   if (process.env.NODE_ENV !== "production") {
     console.log(...args);
   }
 };
 
-// 🔐 Load System Prompt from file
+// Load system prompt
 const systemPrompt = fs.readFileSync("./prompt/systemPrompt.txt", "utf-8");
 
-// ✨ API Endpoint - Chat
+// Chat endpoint
 app.post("/chat", async (req, res) => {
   const { message } = req.body;
 
@@ -35,7 +34,7 @@ app.post("/chat", async (req, res) => {
   const cleanMsg = message.trim().toLowerCase();
   debugLog("🛎️ Received message:", message);
 
-  // 🧠 Handle special cases
+  // Special case handler
   if (/tell about me/i.test(cleanMsg)) {
     return res.json({
       reply:
@@ -43,12 +42,14 @@ app.post("/chat", async (req, res) => {
     });
   }
 
-  // 📅 Add date to prompt
   const today = new Date().toLocaleDateString("en-GB", {
     day: "2-digit",
     month: "long",
     year: "numeric",
   });
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 10000); // 10s timeout
 
   try {
     const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -71,7 +72,21 @@ app.post("/chat", async (req, res) => {
         ],
         max_tokens: 400,
       }),
+      signal: controller.signal,
     });
+
+    clearTimeout(timeout);
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      debugLog("❌ API Error Response:", errorData);
+
+      if (errorData?.error?.message?.toLowerCase().includes("rate limit")) {
+        return res.status(429).json({ error: "Rate limit exceeded. Try again later." });
+      }
+
+      return res.status(500).json({ error: errorData?.error?.message || "API error." });
+    }
 
     const data = await response.json();
     debugLog("✅ API response:", data);
@@ -82,18 +97,23 @@ app.post("/chat", async (req, res) => {
       res.status(500).json({ error: "No reply from model." });
     }
   } catch (err) {
-    console.error("❌ Groq API error:", err);
+    console.error("🔥 Fetch failed:", err.message);
+
+    if (err.name === "AbortError") {
+      return res.status(504).json({ error: "Request timed out." });
+    }
+
     res.status(500).json({ error: "Groq API call failed." });
   }
 });
 
-// 🔁 Reset endpoint
+// Reset endpoint
 app.post("/reset", (req, res) => {
   console.log("🔄 Manual reset triggered.");
   res.status(200).send("Reset done");
 });
 
-// 🚀 Start server
+// Start server
 app.listen(port, () => {
   console.log(`🚀 Server running at http://localhost:${port}`);
 });
