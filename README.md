@@ -7,7 +7,7 @@ This is the backend API for **FuadBot**, a lightweight chatbot powered by Groq's
 ## 🚀 Live URL
 
 Backend hosted on **Render**:  
-➡️ [https://fuadbot-api-1.onrender.com](https://fuadbot-api.onrender.com)
+➡️ [https://fuadbot-api-1.onrender.com](https://fuadbot-api-1.onrender.com)
 
 Frontend live here:  
 🎨 [https://fuadbot-ui.vercel.app](https://fuadbot-ui.vercel.app)
