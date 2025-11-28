@@ -4,7 +4,7 @@
 ## 🚀 Live URL
 
 Backend (FastAPI) hosted on **Render**:  
-➡️ https://fuadbot-api-1.onrender.com
+➡️ https://fuadbot-api.onrender.com
 
 Frontend live here:  
 🎨 https://fuadbot-ui.vercel.app
