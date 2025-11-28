@@ -1,2 +1,29 @@
-# Ignore env files
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pkl
+
+# Virtual environment
+venv/
+ENV/
+env/
+
+# Env file
 .env
+
+# VSCode
+.vscode/
+
+# macOS
+.DS_Store
+
+# Byte-compiled / optimized / DLL files
+*.so
+*.dll
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
