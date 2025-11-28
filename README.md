@@ -177,9 +177,4 @@ FuadBot API is lightweight, fast, and ready for production or experimentation. C
 
 Happy building! ⚡🧠
 
-```
 
----
-
-If you want, I can also generate a **deploy-ready Dockerfile**, a **Python `.gitignore`**, or a **project restructuring** for cleaner FastAPI architecture.
-```
