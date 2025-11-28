@@ -7,26 +7,24 @@ from datetime import datetime
 import requests
 import os
 
-# Load .env
+# Load .env for local dev
 load_dotenv()
 
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+app = FastAPI(
+    title="FuadBot API",
+    description="Backend for FuadBot using Groq LLaMA 3",
+    version="1.0.0",
+)
 
-if not GROQ_API_KEY:
-  raise RuntimeError("GROQ_API_KEY is not set in .env")
-
-app = FastAPI()
-
-# CORS (similar to app.use(cors()))
+# CORS (allow all for now)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # lock this down if needed
+    allow_origins=["*"],  # later you can restrict to your frontend origin
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Pydantic models for request/response
 class ChatRequest(BaseModel):
     message: str
 
@@ -36,22 +34,36 @@ class ChatResponse(BaseModel):
 class ErrorResponse(BaseModel):
     error: str
 
-# Debug logger (simple version)
+
 def debug_log(*args):
-    if os.getenv("NODE_ENV") != "production":
+    if os.getenv("ENV", "development") != "production":
         print(*args)
 
-# Load system prompt safely
+
+# Load system prompt
 BASE_DIR = Path(__file__).resolve().parent
 system_prompt_path = BASE_DIR / "prompt" / "systemPrompt.txt"
 
 try:
-    system_prompt = system_prompt_path.read_text(encoding="utf-8")
+    SYSTEM_PROMPT = system_prompt_path.read_text(encoding="utf-8")
 except FileNotFoundError:
     print("⚠️ systemPrompt.txt not found, using fallback system prompt.")
-    system_prompt = "You are a helpful assistant."
+    SYSTEM_PROMPT = "You are a helpful, concise AI assistant."
 
-# Chat endpoint
+
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+
+
+@app.get("/")
+def root():
+    return {"message": "FuadBot API is running 🚀"}
+
+
+@app.get("/healthz")
+def health_check():
+    return {"status": "ok"}
+
+
 @app.post(
     "/chat",
     response_model=ChatResponse,
@@ -63,21 +75,22 @@ except FileNotFoundError:
     },
 )
 def chat(body: ChatRequest):
-    message = body.message
-
-    if not message or len(message) > 2000:
+    if not body.message or len(body.message) > 2000:
         raise HTTPException(status_code=400, detail="Invalid or too long message input.")
 
-    clean_msg = message.strip().lower()
-    debug_log("🛎️ Received message:", message)
+    if not GROQ_API_KEY:
+        raise HTTPException(status_code=500, detail="Server misconfigured: GROQ_API_KEY missing.")
 
-    # Special case handler (same logic as Express)
+    user_message = body.message.strip()
+    clean_msg = user_message.lower()
+    debug_log("🛎️ Received message:", user_message)
+
+    # Special case
     if "tell about me" in clean_msg:
         return ChatResponse(
             reply="Do you want me to tell you about Fuad Khan or about yourself? I can only provide info about Fuad Khan."
         )
 
-    # Today's date in "dd Month yyyy" (like en-GB from JS)
     today = datetime.now().strftime("%d %B %Y")
 
     url = "https://api.groq.com/openai/v1/chat/completions"
@@ -90,26 +103,24 @@ def chat(body: ChatRequest):
         "messages": [
             {
                 "role": "system",
-                "content": f"{system_prompt}\n\n📅 Today's Date: {today}",
+                "content": f"{SYSTEM_PROMPT}\n\n📅 Today's Date: {today}",
             },
             {
                 "role": "user",
-                "content": f"{message} (Answer briefly and only what is asked.)",
+                "content": f"{user_message} (Answer briefly and only what is asked.)",
             },
         ],
         "max_tokens": 400,
     }
 
     try:
-        # timeout=10s ≈ AbortController logic
         resp = requests.post(url, headers=headers, json=payload, timeout=10)
     except requests.exceptions.Timeout:
         raise HTTPException(status_code=504, detail="Request timed out.")
     except requests.exceptions.RequestException as e:
-        debug_log("🔥 Fetch failed:", str(e))
+        debug_log("🔥 Groq API call failed:", str(e))
         raise HTTPException(status_code=500, detail="Groq API call failed.")
 
-    # Handle non-200 from Groq
     if not resp.ok:
         try:
             error_data = resp.json()
@@ -135,7 +146,6 @@ def chat(body: ChatRequest):
     return ChatResponse(reply=reply_text)
 
 
-# Reset endpoint
 @app.post("/reset")
 def reset():
     print("🔄 Manual reset triggered.")
